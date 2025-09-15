@@ -34,7 +34,7 @@ module.exports = {
     // Your existing OTP function
     sendOtp: async(email, otp) => {
         const mailOptions = {
-            from: '"Internship Platform" <no-reply@yourdomain.com>',
+            from: '"PM Internship Platform" <no-reply@yourdomain.com>',
             to: email,
             subject: 'Your OTP',
             text: `Your OTP is ${otp}. It is valid for 10 minutes.`,
@@ -46,7 +46,7 @@ module.exports = {
     // NEW: Send internship match notification
     sendInternshipMatch: async(email, emailContent) => {
         const mailOptions = {
-            from: '"demo" <no-reply@yourdomain.com>',
+            from: '"PM Internship Platform" <no-reply@yourdomain.com>',
             to: email,
             subject: emailContent.subject,
             text: emailContent.textContent,
@@ -59,7 +59,7 @@ module.exports = {
     // NEW: Send general notification
     sendGeneralNotification: async(email, subject, message, htmlMessage = null) => {
         const mailOptions = {
-            from: '"demo" <no-reply@yourdomain.com>',
+            from: '"PM Internship Platform" <no-reply@yourdomain.com>',
             to: email,
             subject: subject,
             text: message,
@@ -107,7 +107,7 @@ module.exports = {
                 }
 
                 const mailOptions = {
-                    from: '"demo" <no-reply@yourdomain.com>',
+                    from: '"PM Internship Platform" <no-reply@yourdomain.com>',
                     to: email,
                     subject: subject,
                     text: personalizedMessage,

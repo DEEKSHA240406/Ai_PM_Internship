@@ -61,6 +61,7 @@ sectors: [{
   
   eligibility: {
     education: [String],
+    year: [String]
   },
   
   applicationDeadline: { 
@@ -82,10 +83,6 @@ sectors: [{
     type: String, 
     enum: ['Active', 'Paused', 'Closed'], 
     default: 'Active' 
-  },
-
-  websiteLink: {
-    type: String,
   },
   
   postedBy: { 

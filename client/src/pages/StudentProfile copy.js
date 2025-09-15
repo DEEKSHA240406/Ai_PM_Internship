@@ -16,11 +16,7 @@ import {
   LinearProgress,
   Alert,
   CircularProgress,
-  Autocomplete,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
+  Autocomplete
 } from '@mui/material';
 import {
   Mic as MicIcon,
@@ -43,19 +39,6 @@ const StudentProfileCreation = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en-IN');
   const [stepHistory, setStepHistory] = useState(['language']);
   const [micPersistentMode, setMicPersistentMode] = useState(false);
-
-    const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
-  const [selectedInternship, setSelectedInternship] = useState(null);
-
-  const handleViewDetails = (internship) => {
-    setSelectedInternship(internship);
-    setDetailsDialogOpen(true);
-  };
-
-  const handleCloseDetailsDialog = () => {
-    setDetailsDialogOpen(false);
-    setSelectedInternship(null);
-  };
   
   // Profile data - Updated for sector_interests
   const [profileData, setProfileData] = useState({
@@ -959,271 +942,14 @@ const stopVoiceRecognition = () => {
 };
 
   // Render recommendations
-  // Enhanced renderRecommendations function with detailed view
-const renderRecommendations = () => {
-
-
-  // Render internship details dialog (same as dashboard)
-  const renderInternshipDetailsDialog = () => {
-    if (!selectedInternship) return null;
-
-    return (
-      <Dialog 
-        open={detailsDialogOpen} 
-        onClose={handleCloseDetailsDialog}
-        maxWidth="md"
-        fullWidth
-        PaperProps={{
-          sx: { maxHeight: '90vh' }
-        }}
-      >
-        <DialogTitle>
-          <Box display="flex" justifyContent="space-between" alignItems="flex-start">
-            <Box>
-              <Typography variant="h5" color="primary" sx={{ fontWeight: 600 }}>
-                {selectedInternship.title}
-              </Typography>
-              <Typography variant="h6" color="text.secondary">
-                {selectedInternship.company}
-              </Typography>
-              <Box display="flex" alignItems="center" mt={1}>
-                <Chip 
-                  label={`${selectedInternship.matchScore}% Match`}
-                  color="primary"
-                  size="small"
-                  sx={{ fontWeight: 'bold', mr: 1 }}
-                />
-                <Chip 
-                  label={selectedInternship.job_id}
-                  variant="outlined"
-                  size="small"
-                />
-              </Box>
-            </Box>
-            <IconButton onClick={handleCloseDetailsDialog} size="small">
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        </DialogTitle>
-        
-        <DialogContent dividers>
-          <Grid container spacing={3}>
-            {/* Basic Information */}
-            <Grid item xs={12} md={6}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6" gutterBottom color="primary">
-                    Job Details
-                  </Typography>
-                  
-                  <Box mb={2}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Location
-                    </Typography>
-                    <Box display="flex" alignItems="center" mt={0.5}>
-                      <Typography variant="body1">
-                        {selectedInternship.location}
-                      </Typography>
-                      {selectedInternship.remote_ok && (
-                        <Chip 
-                          label="Remote Available" 
-                          size="small" 
-                          color="success" 
-                          sx={{ ml: 1 }} 
-                        />
-                      )}
-                    </Box>
-                  </Box>
-
-                  <Box mb={2}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Duration
-                    </Typography>
-                    <Typography variant="body1">
-                      {selectedInternship.duration}
-                    </Typography>
-                  </Box>
-
-                  <Box mb={2}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Stipend
-                    </Typography>
-                    <Typography variant="body1">
-                      {selectedInternship.stipend?.amount > 0 
-                        ? `₹${selectedInternship.stipend.amount}/month`
-                        : 'Unpaid'
-                      }
-                    </Typography>
-                  </Box>
-
-                  <Box>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Application Deadline
-                    </Typography>
-                    <Typography variant="body1">
-                      {new Date(selectedInternship.applicationDeadline).toLocaleDateString('en-IN')}
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            {/* Requirements */}
-            <Grid item xs={12} md={6}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6" gutterBottom color="primary">
-                    Requirements
-                  </Typography>
-                  
-                  <Box mb={2}>
-                    <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                      Skills Required
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                      {selectedInternship.skills_required.map((skill, index) => (
-                        <Chip 
-                          key={index} 
-                          label={skill} 
-                          size="small" 
-                          color="primary" 
-                          variant="outlined"
-                        />
-                      ))}
-                    </Box>
-                  </Box>
-
-                  {selectedInternship.sectors && selectedInternship.sectors.length > 0 && (
-                    <Box mb={2}>
-                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                        Industry Sectors
-                      </Typography>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {selectedInternship.sectors.map((sector, index) => (
-                          <Chip 
-                            key={index} 
-                            label={sector.name} 
-                            size="small" 
-                            color="secondary" 
-                            variant="filled"
-                          />
-                        ))}
-                      </Box>
-                    </Box>
-                  )}
-
-                  {selectedInternship.eligibility?.education && selectedInternship.eligibility.education.length > 0 && (
-                    <Box>
-                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                        Education Requirements
-                      </Typography>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {selectedInternship.eligibility.education.map((edu, index) => (
-                          <Chip 
-                            key={index} 
-                            label={edu} 
-                            size="small" 
-                            color="info" 
-                            variant="outlined"
-                          />
-                        ))}
-                      </Box>
-                    </Box>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-
-            {/* Description */}
-            <Grid item xs={12}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6" gutterBottom color="primary">
-                    Job Description
-                  </Typography>
-                  <Typography variant="body1" sx={{ whiteSpace: 'pre-line', lineHeight: 1.6 }}>
-                    {selectedInternship.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            {/* Match Details */}
-            <Grid item xs={12}>
-              <Card variant="outlined" sx={{ bgcolor: 'success.light', borderColor: 'success.main' }}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom color="success.dark">
-                    Why This Matches Your Profile ({selectedInternship.matchScore}% Match)
-                  </Typography>
-                  
-                  <Box component="ul" sx={{ pl: 2, m: 0 }}>
-                    <Typography component="li" variant="body2" color="success.dark">
-                      {selectedInternship.matchDetails?.skills || 'Skills alignment with your profile'}
-                    </Typography>
-                    <Typography component="li" variant="body2" color="success.dark">
-                      {selectedInternship.matchDetails?.location || 'Location matches your preferences'}
-                    </Typography>
-                    <Typography component="li" variant="body2" color="success.dark">
-                      {selectedInternship.matchDetails?.sectors || 'Sector aligns with your interests'}
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            {/* Application Information */}
-            <Grid item xs={12}>
-              <Alert severity="info">
-                <Typography variant="subtitle2" gutterBottom>
-                  Ready to Apply?
-                </Typography>
-                <Typography variant="body2">
-                   This internship is part of the PM Internship Scheme. To apply, you will use the below <strong>"Apply Now"</strong> button.
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  <strong>Application Deadline:</strong> {new Date(selectedInternship.applicationDeadline).toLocaleDateString('en-IN')}
-                </Typography>
-                {selectedInternship.maxApplications && (
-                  <Typography variant="body2">
-                    <strong>Maximum Applications:</strong> {selectedInternship.maxApplications} positions available
-                  </Typography>
-                )}
-              </Alert>
-            </Grid>
-          </Grid>
-        </DialogContent>
-
-        <DialogActions sx={{ p: 3 }}>
-          <Button 
-            onClick={handleCloseDetailsDialog}
-            variant="outlined"
-          >
-            Close
-          </Button>
-          <Button 
-            variant="contained"
-            color="primary"
-            onClick={() => {
-             window.open(selectedInternship.websiteLink, '_blank');
-            }}
-          >
-            Apply Now
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
-  };
-
+  const renderRecommendations = () => {
   const getRecommendationsContent = () => {
     if (isLoadingRecommendations) {
       return (
         <Box textAlign="center" sx={{ py: 4 }}>
           <CircularProgress size={60} />
           <Typography variant="body1" sx={{ mt: 2 }}>
-            {t('findingMatches')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Analyzing your skills, interests, and preferences
+            Finding perfect matches for you...
           </Typography>
         </Box>
       );
@@ -1231,171 +957,50 @@ const renderRecommendations = () => {
     
     if (recommendations.length > 0) {
       return (
-        <>
-          <Typography variant="body2" color="text.secondary" paragraph>
-            Found {recommendations.length} internship{recommendations.length > 1 ? 's' : ''} matching your profile. 
-            Sorted by compatibility score.
-          </Typography>
-          <Grid container spacing={2} sx={{ mt: 2 }}>
-            {recommendations.map((internship, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <Card 
-                  variant="outlined"
-                  sx={{ 
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    border: '1px solid', 
-                    borderColor: 'primary.light',
-                    '&:hover': {
-                      borderColor: 'primary.main',
-                      boxShadow: 3,
-                      transform: 'translateY(-2px)',
-                      transition: 'all 0.2s ease-in-out'
-                    },
-                    position: 'relative'
-                  }}
-                >
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1}>
-                      <Typography variant="h6" color="primary" sx={{ fontWeight: 600 }}>
-                        {internship.title}
-                      </Typography>
-                      <Chip 
-                        label={`${internship.matchScore || 85}% Match`}
-                        color="primary"
-                        size="small"
-                        sx={{ fontWeight: 'bold' }}
-                      />
-                    </Box>
-                    
-                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                      {internship.company}
+        <Grid container spacing={3} sx={{ mt: 2 }}>
+          {recommendations.map((internship, index) => (
+            <Grid item xs={12} key={index}>
+              <Paper sx={{ p: 3, border: '1px solid', borderColor: 'primary.light' }}>
+                <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+                  <Box flex={1}>
+                    <Typography variant="h6" color="primary">
+                      {index + 1}. {internship.title}
                     </Typography>
-                    
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                      {internship.location}
-                      {internship.remote_ok && (
-                        <Chip label="Remote OK" size="small" color="success" sx={{ ml: 1 }} />
-                      )}
+                    <Typography variant="subtitle1" color="text.secondary">
+                      {internship.company} • {internship.location}
                     </Typography>
-
-                    {/* Display sector information */}
-                    {internship.sectors && internship.sectors.length > 0 && (
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-                          Sectors:
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                          {internship.sectors.map((sector, idx) => (
-                            <Chip 
-                              key={idx} 
-                              label={sector.name} 
-                              size="small" 
-                              color="secondary" 
-                              variant="outlined" 
-                            />
-                          ))}
-                        </Box>
-                      </Box>
-                    )}
-
-                    {/* Match details */}
-                    <Box mt={2} sx={{ 
-                      bgcolor: 'success.light', 
-                      p: 2, 
-                      borderRadius: 1,
-                      border: '1px solid',
-                      borderColor: 'success.main'
-                    }}>
-                      <Typography variant="caption" color="success.dark" display="block" sx={{ fontWeight: 600 }}>
-                        Why this matches you:
+                    <Typography variant="body2" sx={{ mt: 1, mb: 2 }}>
+                      {internship.description}
+                    </Typography>
+                    <Box>
+                      <Typography variant="body2" color="success.main" display="block">
+                        ✔ {internship.matchDetails?.skills || 'Skills match'}
                       </Typography>
-                      <Typography variant="caption" color="success.dark" display="block">
-                        ✓ {internship.matchDetails?.skills || 'Skills alignment'}
+                      <Typography variant="body2" color="success.main" display="block">
+                        ✔ {internship.matchDetails?.location || 'Location match'}
                       </Typography>
-                      <Typography variant="caption" color="success.dark" display="block">
-                        ✓ {internship.matchDetails?.location || 'Location preference'}
-                      </Typography>
-                      <Typography variant="caption" color="success.dark" display="block">
-                        ✓ {internship.matchDetails?.sectors || 'Sector interest'}
+                      <Typography variant="body2" color="success.main" display="block">
+                        ✔ {internship.matchDetails?.sectors || 'Sector match'}
                       </Typography>
                     </Box>
-
-                    {/* Stipend and duration */}
-                    <Box mt={2} display="flex" justifyContent="space-between" alignItems="center">
-                      {internship.stipend?.amount > 0 ? (
-                        <Chip 
-                          label={`₹${internship.stipend.amount}/month`} 
-                          size="small" 
-                          color="success" 
-                          variant="filled"
-                        />
-                      ) : (
-                        <Chip 
-                          label="Unpaid" 
-                          size="small" 
-                          color="default" 
-                          variant="outlined"
-                        />
-                      )}
-                      
-                      {internship.duration && (
-                        <Chip 
-                          label={internship.duration} 
-                          size="small" 
-                          color="info" 
-                          variant="outlined"
-                        />
-                      )}
-                    </Box>
-
-                    {internship.applicationDeadline && (
-                      <Box mt={1}>
-                        <Typography variant="caption" color="warning.main">
-                          Apply by: {new Date(internship.applicationDeadline).toLocaleDateString()}
-                        </Typography>
-                      </Box>
-                    )}
-                  </CardContent>
-                  
-                  {/* Card Actions with View Details button */}
-                  <Box sx={{ p: 2, pt: 0 }}>
-                    <Button
-                      variant="outlined"
-                      onClick={() => handleViewDetails(internship)}
-                      fullWidth
-                      sx={{ mr: 1, mb: 1 }}
-                    >
-                      View Details
-                    </Button>
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                       window.open(internship.websiteLink, '_blank');
-                      }}
-                      fullWidth
-                    >
-                      Apply Now
-                    </Button>
                   </Box>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-          {renderInternshipDetailsDialog()}
-        </>
+                  <Chip 
+                    label={`${internship.matchScore || 85}% Match`}
+                    color="primary"
+                    variant="filled"
+                    sx={{ ml: 2, fontWeight: 'bold' }}
+                  />
+                </Box>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
       );
     }
     
     return (
-      <Alert severity="info" sx={{ textAlign: 'center' }}>
-        <Typography variant="body1" gutterBottom>
-          No matching internships found at the moment.
-        </Typography>
-        <Typography variant="body2">
-          Don't worry! New internships are added regularly. We'll notify you when perfect matches become available!
-        </Typography>
+      <Alert severity="info">
+        No matching internships found at the moment. We'll notify you when new opportunities become available!
       </Alert>
     );
   };

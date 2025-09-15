@@ -244,7 +244,7 @@ export default function InternshipUserViewDialog({ open, onClose, internship, in
                                         </Box>
                                     </Grid>
 
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12}>
                                         <Box display="flex" alignItems="center" gap={1} mb={2}>
                                             {internshipData.status === 'Active' ? (
                                                 <CheckIcon color="success" />
@@ -263,25 +263,6 @@ export default function InternshipUserViewDialog({ open, onClose, internship, in
                                             </Box>
                                         </Box>
                                     </Grid>
-
-                                    {internshipData.websiteLink && (
-                                        <Grid item xs={12} sm={6}>
-                                            <Box display="flex" alignItems="center" gap={1} mb={2}>
-                                                <BusinessIcon color="action" />
-                                                <Box>
-                                                    <Typography variant="subtitle2" color="textSecondary">
-                                                        Website Link
-                                                    </Typography>
-                                                    <Typography variant="body1">
-                                                        <a href={internshipData.websiteLink} target="_blank" rel="noopener noreferrer">
-                                                            {internshipData.websiteLink}
-                                                        </a>
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                        </Grid>
-                                    )}
-                                        
                                 </Grid>
                             </CardContent>
                         </Card>
@@ -398,6 +379,28 @@ export default function InternshipUserViewDialog({ open, onClose, internship, in
                                         </Box>
                                     </Grid>
 
+                                    <Grid item xs={12} md={6}>
+                                        <Typography variant="subtitle2" color="textSecondary" gutterBottom>
+                                            Year Level
+                                        </Typography>
+                                        <Box display="flex" flexWrap="wrap" gap={1}>
+                                            {internshipData.eligibility?.year?.length > 0 ? (
+                                                internshipData.eligibility.year.map((year, index) => (
+                                                    <Chip 
+                                                        key={index} 
+                                                        label={year} 
+                                                        size="small"
+                                                        color="info"
+                                                        variant="outlined"
+                                                    />
+                                                ))
+                                            ) : (
+                                                <Typography variant="body2" color="textSecondary">
+                                                    Any year level
+                                                </Typography>
+                                            )}
+                                        </Box>
+                                    </Grid>
                                 </Grid>
                             </CardContent>
                         </Card>

@@ -69,16 +69,16 @@ export default function DashboardApp() {
     try {
       setLoading(true);
       const [dashboardRes, userRes, internshipRes, notificationRes] = await Promise.all([
-        axios.get('http://localhost:7070/api/stats/dashboard', {
+        axios.get('http://localhost:8070/api/stats/dashboard', {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get('http://localhost:7070/api/stats/users', {
+        axios.get('http://localhost:8070/api/stats/users', {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get('http://localhost:7070/api/stats/internships', {
+        axios.get('http://localhost:8070/api/stats/internships', {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get('http://localhost:7070/api/stats/notifications', {
+        axios.get('http://localhost:8070/api/stats/notifications', {
           headers: { Authorization: `Bearer ${token}` }
         }).catch(err => {
           console.warn('Notification stats not available:', err);

@@ -35,8 +35,9 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
         remote_ok: false,
         duration: '',
         stipend: { amount: 0, currency: 'INR' },
-        eligibility: { education: [], year: [] },
+        eligibility: { education: [] },
         applicationDeadline: '',
+        websiteLink: '',
         maxApplications: 50
     });
 
@@ -44,7 +45,6 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
     const [selectedSectors, setSelectedSectors] = useState([]); // For Autocomplete
     const [availableSectors, setAvailableSectors] = useState([]); // From API
     const [tempEducation, setTempEducation] = useState('');
-    const [tempYear, setTempYear] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
     const [loadingSectors, setLoadingSectors] = useState(false);
@@ -59,7 +59,7 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
     const fetchSectors = async () => {
         setLoadingSectors(true);
         try {
-            const response = await axios.get('http://localhost:7070/api/sectors');
+            const response = await axios.get('http://localhost:8070/api/sectors');
             setAvailableSectors(response.data.sectors || []);
         } catch (error) {
             console.error('Error fetching sectors:', error);
@@ -79,7 +79,7 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
             };
 
             const response = await axios.post(
-                'http://localhost:7070/api/internships/admin/internships',
+                'http://localhost:8070/api/internships/admin/internships',
                 dataToSubmit,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -108,7 +108,7 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
 
         try {
             const response = await axios.post(
-                'http://localhost:7070/api/internships/admin/internships/bulk-upload',
+                'http://localhost:8070/api/internships/admin/internships/bulk-upload',
                 formData,
                 {
                     headers: {
@@ -143,14 +143,14 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
             remote_ok: false,
             duration: '',
             stipend: { amount: 0, currency: 'INR' },
-            eligibility: { education: [], year: [] },
+            eligibility: { education: []},
             applicationDeadline: '',
+            websiteLink: '',
             maxApplications: 50
         });
         setTempSkill('');
         setSelectedSectors([]);
         setTempEducation('');
-        setTempYear('');
     };
 
     const addSkill = () => {
@@ -193,28 +193,8 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
         }));
     };
 
-    const addYear = () => {
-        if (tempYear.trim() && !internshipData.eligibility.year.includes(tempYear.trim())) {
-            setInternshipData(prev => ({
-                ...prev,
-                eligibility: {
-                    ...prev.eligibility,
-                    year: [...prev.eligibility.year, tempYear.trim()]
-                }
-            }));
-            setTempYear('');
-        }
-    };
 
-    const removeYear = (yearToRemove) => {
-        setInternshipData(prev => ({
-            ...prev,
-            eligibility: {
-                ...prev.eligibility,
-                year: prev.eligibility.year.filter(yr => yr !== yearToRemove)
-            }
-        }));
-    };
+
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -392,6 +372,15 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
                             margin="normal"
                         />
 
+                        <TextField
+                            fullWidth
+                            label="Website Link"
+                            value={internshipData.websiteLink || ''}
+                            onChange={(e) => setInternshipData(prev => ({ ...prev, websiteLink: e.target.value }))}
+                            margin="normal"
+                            placeholder="e.g. https://company.com/careers"
+                        />
+
                         {/* Eligibility Section */}
                         <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>Eligibility Criteria</Typography>
                         
@@ -414,29 +403,6 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
                                     onDelete={() => removeEducation(edu)}
                                     deleteIcon={<DeleteIcon />}
                                     color="primary"
-                                />
-                            ))}
-                        </Box>
-
-                        <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-                            <TextField
-                                label="Add Year Level"
-                                value={tempYear}
-                                onChange={(e) => setTempYear(e.target.value)}
-                                onKeyPress={(e) => e.key === 'Enter' && addYear()}
-                                size="small"
-                                placeholder="e.g. Final Year, 2nd Year"
-                            />
-                            <Button onClick={addYear} variant="outlined">Add</Button>
-                        </Box>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                            {internshipData.eligibility.year.map((yr, index) => (
-                                <Chip
-                                    key={index}
-                                    label={yr}
-                                    onDelete={() => removeYear(yr)}
-                                    deleteIcon={<DeleteIcon />}
-                                    color="secondary"
                                 />
                             ))}
                         </Box>

@@ -130,7 +130,7 @@ export default function Sector() {
   const fetchSectors = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:7070/api/sectors');
+      const response = await axios.get('http://localhost:8070/api/sectors');
       
       // Check if response has the expected structure
       if (response.data && response.data.success && Array.isArray(response.data.sectors)) {
@@ -238,7 +238,7 @@ export default function Sector() {
   const handleAddSector = async () => {
     try {
 
-      const response = await axios.post('http://localhost:7070/api/sectors', { name }); // Adjust based on your actual data structure
+      const response = await axios.post('http://localhost:8070/api/sectors', { name }); // Adjust based on your actual data structure
       toast.success('Sector added successfully');
       fetchSectors(); // Refresh Sector list after adding
       handleCloseModal(); // Close modal after adding
@@ -250,7 +250,7 @@ export default function Sector() {
   // Handle updating a Sector
   const handleUpdateSector = async () => {
     try {
-      const response = await axios.put(`http://localhost:7070/api/sectors/${editingUserId}`, {name}); // Adjust endpoint as necessary
+      const response = await axios.put(`http://localhost:8070/api/sectors/${editingUserId}`, {name}); // Adjust endpoint as necessary
       toast.success(response.data.message);
       fetchSectors(); // Refresh Sector list after updating
       handleCloseModal(); // Close modal after updating
@@ -263,7 +263,7 @@ export default function Sector() {
   const handleDeleteSector = async (userId) => {
     if (window.confirm("Are you sure you want to delete this Sector?")) {
       try {
-        const response = await axios.delete(`http://localhost:7070/api/sectors/${userId}`); // Adjust endpoint as necessary
+        const response = await axios.delete(`http://localhost:8070/api/sectors/${userId}`); // Adjust endpoint as necessary
         toast.success(response.data.message);
         fetchSectors(); // Refresh Sector list after deletion
       } catch (error) {

@@ -24,7 +24,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:7070/api/auth/profile/${id}`);
+        const response = await axios.get(`http://localhost:8070/api/auth/profile/${id}`);
         setUser(response.data);
         setFormData({
           email: response.data.email,
@@ -50,7 +50,7 @@ const ProfilePage = () => {
 
   const requestOtp = async () => {
     try {
-      await axios.post('http://localhost:7070/api/auth/request-otp', { email }); // Send OTP to user's email
+      await axios.post('http://localhost:8070/api/auth/request-otp', { email }); // Send OTP to user's email
       setMessage('OTP sent to your email.');
       setOtpSent(true);
     } catch (error) {
@@ -62,7 +62,7 @@ const ProfilePage = () => {
   const handleChangePassword = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:7070/api/auth/change-password', {
+      await axios.post('http://localhost:8070/api/auth/change-password', {
         email: user.email,
         currentPassword,
         newPassword,

@@ -59,7 +59,6 @@ const TABLE_HEAD = [
     { id: 'duration', label: 'Duration', alignRight: false },
     { id: 'stipend', label: 'Stipend', alignRight: false },
     { id: 'applicationDeadline', label: 'Deadline', alignRight: false },
-    { id: 'websiteLink', label: 'Website', alignRight: false },
     { id: 'status', label: 'Status', alignRight: false },
     { id: 'posted_date', label: 'Posted Date', alignRight: false },
     { id: 'action', label: 'Action', alignRight: false },
@@ -433,7 +432,6 @@ export default function Internship() {
                 internshipData.applicationDeadline = new Date(internship.applicationDeadline).toLocaleDateString();
             }
             if (visibleColumns.includes('status')) internshipData.status = internship.status;
-            if (visibleColumns.includes('websiteLink')) internshipData.websiteLink = internship.websiteLink || '';
             if (visibleColumns.includes('posted_date')) {
                 internshipData.posted_date = new Date(internship.posted_date || internship.createdAt).toLocaleDateString();
             }
@@ -475,7 +473,6 @@ export default function Internship() {
                 internshipData.applicationDeadline = new Date(internship.applicationDeadline).toLocaleDateString();
             }
             if (visibleColumns.includes('status')) internshipData.status = internship.status;
-            if (visibleColumns.includes('websiteLink')) internshipData.websiteLink = internship.websiteLink || '';
             if (visibleColumns.includes('posted_date')) {
                 internshipData.posted_date = new Date(internship.posted_date || internship.createdAt).toLocaleDateString();
             }
@@ -728,15 +725,6 @@ export default function Internship() {
                                                         {new Date(row.applicationDeadline).toLocaleDateString()}
                                                     </TableCell>
                                                 )}
-                                                {visibleColumns.includes('websiteLink') && (
-                                                    <TableCell align="left">
-                                                        {row.websiteLink ? (
-                                                            <a href={row.websiteLink} target="_blank" rel="noopener noreferrer">
-                                                                {row.websiteLink.length > 30 ? `${row.websiteLink.slice(0, 30)}...` : row.websiteLink}
-                                                            </a>
-                                                        ) : 'N/A'}
-                                                    </TableCell>
-                                                )}
                                                 {visibleColumns.includes('status') && (
                                                     <TableCell align="left">
                                                         <Label color={getColor(row.status)}>
@@ -744,7 +732,6 @@ export default function Internship() {
                                                         </Label>
                                                     </TableCell>
                                                 )}
-                                            
                                                 {visibleColumns.includes('posted_date') && (
                                                     <TableCell align="left">
                                                         {new Date(row.posted_date || row.createdAt).toLocaleDateString()}

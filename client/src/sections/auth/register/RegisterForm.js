@@ -67,7 +67,7 @@ export default function RegisterForm() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:7070/api/auth/register', data);
+            const response = await axios.post('http://localhost:8070/api/auth/register', data);
 
             if (response.status === 201) {
                 setRegisteredData({

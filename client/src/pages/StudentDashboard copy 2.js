@@ -523,50 +523,24 @@ const StudentDashboard = () => {
                     </Box>
                   )}
 
-                 <Box>
-                    <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                      Education Requirements
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                      {selectedInternship.eligibility?.education && selectedInternship.eligibility.education.length > 0 ? (
-                        selectedInternship.eligibility.education.map((edu, index) => {
-                          // Check if this education requirement matches the user's qualification
-                          const isMatched = selectedInternship.eligibilityDetails?.matchedWith && 
-                                           edu.toLowerCase() === selectedInternship.eligibilityDetails.matchedWith.toLowerCase();
-                          
-                          return (
-                            <Chip 
-                              key={index} 
-                              label={edu} 
-                              size="small" 
-                              color={isMatched ? "success" : "default"}
-                              variant={isMatched ? "filled" : "outlined"}
-                              sx={isMatched ? { 
-                                backgroundColor: '#4caf50',
-                                color: 'white',
-                                fontWeight: 'medium'
-                              } : {
-                                color: 'text.secondary',
-                                borderColor: 'grey.400'
-                              }}
-                            />
-                          );
-                        })
-                      ) : (
-                        <Chip 
-                          label="Any education level" 
-                          size="small" 
-                          color="success" 
-                          variant="filled"
-                          sx={{ 
-                            backgroundColor: '#4caf50',
-                            color: 'white',
-                            fontWeight: 'medium'
-                          }}
-                        />
-                      )}
+                  {selectedInternship.eligibility?.education && selectedInternship.eligibility.education.length > 0 && (
+                    <Box>
+                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                        Education Requirements
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {selectedInternship.eligibility.education.map((edu, index) => (
+                          <Chip 
+                            key={index} 
+                            label={edu} 
+                            size="small" 
+                            color="info" 
+                            variant="outlined"
+                          />
+                        ))}
+                      </Box>
                     </Box>
-                  </Box>
+                  )}
                 </CardContent>
               </Card>
             </Grid>

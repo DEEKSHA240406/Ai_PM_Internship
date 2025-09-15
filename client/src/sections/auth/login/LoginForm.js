@@ -34,7 +34,8 @@ export default function LoginForm() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:7070/api/auth/login', data);
+            const response = await axios.post('http://localhost:8070/api/auth/login', data);
+            console.log(response);
             if (response.status === 200) {
                 setEmail(data.email);
                 setOtpDialogOpen(true);
@@ -49,7 +50,7 @@ export default function LoginForm() {
     const handleVerifyOtp = async () => {
         setLoadingOtp(true);
         try {
-            const response = await axios.post('http://localhost:7070/api/auth/verification-otp', { email, userOtp: otp });
+            const response = await axios.post('http://localhost:8070/api/auth/verification-otp', { email, userOtp: otp });
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('email', response.data.user.email);

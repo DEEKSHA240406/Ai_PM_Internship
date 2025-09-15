@@ -33,10 +33,9 @@ export default function InternshipUserDialog({ open, onClose, internshipId, fetc
         remote_ok: false,
         duration: '',
         stipend: { amount: 0, currency: 'INR' },
-        eligibility: { education: []},
+        eligibility: { education: [], year: [] },
         applicationDeadline: '',
         maxApplications: 50,
-        websiteLink: '',
         status: 'Active'
     });
 
@@ -44,6 +43,7 @@ export default function InternshipUserDialog({ open, onClose, internshipId, fetc
     const [selectedSectors, setSelectedSectors] = useState([]);
     const [availableSectors, setAvailableSectors] = useState([]);
     const [tempEducation, setTempEducation] = useState('');
+    const [tempYear, setTempYear] = useState('');
     const [loadingSectors, setLoadingSectors] = useState(false);
     const [loadingInternship, setLoadingInternship] = useState(false);
 
@@ -90,11 +90,10 @@ export default function InternshipUserDialog({ open, onClose, internshipId, fetc
                 remote_ok: fetchedData.remote_ok || false,
                 duration: fetchedData.duration || '',
                 stipend: fetchedData.stipend || { amount: 0, currency: 'INR' },
-                eligibility: fetchedData.eligibility || { education: []},
+                eligibility: fetchedData.eligibility || { education: [], year: [] },
                 applicationDeadline: fetchedData.applicationDeadline ? 
                     new Date(fetchedData.applicationDeadline).toISOString().split('T')[0] : '',
                 maxApplications: fetchedData.maxApplications || 50,
-                websiteLink: fetchedData.websiteLink || '',
                 status: fetchedData.status || 'Active'
             });
 
@@ -157,10 +156,9 @@ export default function InternshipUserDialog({ open, onClose, internshipId, fetc
             remote_ok: false,
             duration: '',
             stipend: { amount: 0, currency: 'INR' },
-            eligibility: { education: [] },
+            eligibility: { education: [], year: [] },
             applicationDeadline: '',
             maxApplications: 50,
-            websiteLink: '',
             status: 'Active'
         });
         setSelectedSectors([]);
@@ -206,6 +204,28 @@ export default function InternshipUserDialog({ open, onClose, internshipId, fetc
         }));
     };
 
+    const addYear = () => {
+        if (tempYear.trim() && !internshipData.eligibility.year.includes(tempYear.trim())) {
+            setInternshipData(prev => ({
+                ...prev,
+                eligibility: {
+                    ...prev.eligibility,
+                    year: [...prev.eligibility.year, tempYear.trim()]
+                }
+            }));
+            setTempYear('');
+        }
+    };
+
+    const removeYear = (yearToRemove) => {
+        setInternshipData(prev => ({
+            ...prev,
+            eligibility: {
+                ...prev.eligibility,
+                year: prev.eligibility.year.filter(yr => yr !== yearToRemove)
+            }
+        }));
+    };
 
     if (loadingInternship) {
         return (
@@ -364,15 +384,6 @@ export default function InternshipUserDialog({ open, onClose, internshipId, fetc
                     margin="normal"
                 />
 
-                <TextField
-                    fullWidth
-                    label="Website Link"
-                    value={internshipData.websiteLink || ''}
-                    onChange={(e) => setInternshipData(prev => ({ ...prev, websiteLink: e.target.value }))}
-                    placeholder="e.g. https://company.com/careers"
-                    margin="normal"
-                />
-
                 <FormControl fullWidth margin="normal">
                     <InputLabel>Status</InputLabel>
                     <Select
@@ -411,7 +422,27 @@ export default function InternshipUserDialog({ open, onClose, internshipId, fetc
                     ))}
                 </Box>
 
-
+                <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                    <TextField
+                        label="Add Year Level"
+                        value={tempYear}
+                        onChange={(e) => setTempYear(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && addYear()}
+                        size="small"
+                    />
+                    <Button onClick={addYear} variant="outlined">Add</Button>
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {internshipData.eligibility.year.map((yr, index) => (
+                        <Chip
+                            key={index}
+                            label={yr}
+                            onDelete={() => removeYear(yr)}
+                            deleteIcon={<DeleteIcon />}
+                            color="secondary"
+                        />
+                    ))}
+                </Box>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
