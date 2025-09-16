@@ -4,7 +4,7 @@
  "description": "Backend for PM Internship Scheme Recommendation Engine",
  "main": "server.js",
  "scripts": {
-  "start": "nodemon server.js",
+  "start": "node server.js",
   "generate-vapid": "node scripts/generateVapidKeys.js",
   "test": "echo \"Error: no test specified\" && exit 1"
  },
