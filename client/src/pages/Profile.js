@@ -20,7 +20,6 @@ const ProfilePage = () => {
   
   const id = localStorage.getItem('id');
   const email = localStorage.getItem('email');
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
