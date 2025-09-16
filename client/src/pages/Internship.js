@@ -204,7 +204,7 @@ export default function Internship() {
     const fetchSectors = async () => {
         setLoadingSectors(true);
         try {
-            const response = await axios.get('http://localhost:8070/api/sectors');
+            const response = await axios.get('https://ai-pm-internship-backend.onrender.com/api/sectors');
             setSectors(response.data.sectors || []);
         } catch (error) {
             console.error("Error fetching sectors:", error);
@@ -219,7 +219,7 @@ export default function Internship() {
         setLoading(true);
         try {
             // Fetch internships with populated sectors
-            const response = await axios.get('http://localhost:8070/api/internships/internships');
+            const response = await axios.get('https://ai-pm-internship-backend.onrender.com/api/internships/internships');
             
             // If sectors are not populated, we need to populate them manually
             const internshipsData = response.data.internships || [];
@@ -235,7 +235,7 @@ export default function Internship() {
                             try {
                                 const sectorPromises = internship.sectors.map(async (sectorId) => {
                                     if (typeof sectorId === 'string') {
-                                        const sectorResponse = await axios.get(`http://localhost:8070/api/sectors/${sectorId}`);
+                                        const sectorResponse = await axios.get(`https://ai-pm-internship-backend.onrender.com/api/sectors/${sectorId}`);
                                         return sectorResponse.data.sector;
                                     }
                                     return sectorId;
@@ -361,7 +361,7 @@ export default function Internship() {
     const handleDeleteInternship = async (internshipId) => {
         if (window.confirm("Are you sure you want to delete this internship?")) {
             try {
-                await axios.delete(`http://localhost:8070/api/internships/admin/internships/${internshipId}`, {
+                await axios.delete(`https://ai-pm-internship-backend.onrender.com/api/internships/admin/internships/${internshipId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 toast.success("Internship deleted successfully");
@@ -496,7 +496,7 @@ export default function Internship() {
 
     const handleDownloadTemplate = async () => {
         try {
-            const response = await axios.get('http://localhost:8070/api/internships/admin/internships/template', {
+            const response = await axios.get('https://ai-pm-internship-backend.onrender.com/api/internships/admin/internships/template', {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob'
             });

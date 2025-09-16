@@ -120,7 +120,7 @@ const StudentProfileCreation = () => {
   const fetchSectors = async () => {
     setLoadingSectors(true);
     try {
-      const response = await axios.get('http://localhost:8070/api/sectors');
+      const response = await axios.get('https://ai-pm-internship-backend.onrender.com/api/sectors');
       setAvailableSectors(response.data.sectors || []);
     } catch (error) {
       console.error('Error fetching sectors:', error);
@@ -495,14 +495,14 @@ const stopVoiceRecognition = () => {
       setIsLoadingRecommendations(true);
 
       await axios.post(
-        'http://localhost:8070/api/auth/profile/create',
+        'https://ai-pm-internship-backend.onrender.com/api/auth/profile/create',
         profileData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       const userId = localStorage.getItem('id');
       const recommendationsResponse = await axios.get(
-        `http://localhost:8070/api/internships/recommendations/${userId}`,
+        `https://ai-pm-internship-backend.onrender.com/api/internships/recommendations/${userId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

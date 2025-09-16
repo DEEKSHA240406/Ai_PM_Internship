@@ -167,7 +167,7 @@ const StudentDashboard = () => {
   const fetchSectors = async () => {
     setLoadingSectors(true);
     try {
-      const response = await axios.get('http://localhost:8070/api/sectors');
+      const response = await axios.get('https://ai-pm-internship-backend.onrender.com/api/sectors');
       setAvailableSectors(response.data.sectors || []);
     } catch (error) {
       console.error('Error fetching sectors:', error);
@@ -181,7 +181,7 @@ const StudentDashboard = () => {
   const fetchStudentData = async () => {
     try {
       const profileResponse = await axios.get(
-        `http://localhost:8070/api/auth/profile/${userId}`,
+        `https://ai-pm-internship-backend.onrender.com/api/auth/profile/${userId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -202,7 +202,7 @@ const StudentDashboard = () => {
     try {
       setRecommendationsLoading(true);
       const response = await axios.get(
-        `http://localhost:8070/api/internships/recommendations/${userId}`,
+        `https://ai-pm-internship-backend.onrender.com/api/internships/recommendations/${userId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log(response.data);
@@ -219,7 +219,7 @@ const StudentDashboard = () => {
   const fetchEmailNotificationStatus = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8070/api/auth/status/${userId}`,
+        `https://ai-pm-internship-backend.onrender.com/api/auth/status/${userId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setEmailNotificationStatus(response.data);
@@ -242,7 +242,7 @@ const StudentDashboard = () => {
     
     try {
       await axios.put(
-        `http://localhost:8070/api/auth/toggle/${userId}`,
+        `https://ai-pm-internship-backend.onrender.com/api/auth/toggle/${userId}`,
         { enabled },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -334,7 +334,7 @@ const StudentDashboard = () => {
       };
 
       const response = await axios.post(
-        'http://localhost:8070/api/auth/profile/create',
+        'https://ai-pm-internship-backend.onrender.com/api/auth/profile/create',
         updateData,
         { headers: { Authorization: `Bearer ${token}` } }
       );

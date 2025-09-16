@@ -46,7 +46,7 @@ export default function InternshipUserViewDialog({ open, onClose, internship, in
     const fetchInternshipDetails = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8070/api/internships/internships/${internshipId}`);
+            const response = await axios.get(`https://ai-pm-internship-backend.onrender.com/api/internships/internships/${internshipId}`);
             console.log(response.data);
             
             // Process the internship data to handle sectors
@@ -69,7 +69,7 @@ export default function InternshipUserViewDialog({ open, onClose, internship, in
                 try {
                     const sectorPromises = data.sectors.map(async (sectorId) => {
                         if (typeof sectorId === 'string') {
-                            const sectorResponse = await axios.get(`http://localhost:8070/api/sectors/${sectorId}`);
+                            const sectorResponse = await axios.get(`https://ai-pm-internship-backend.onrender.com/api/sectors/${sectorId}`);
                             return sectorResponse.data.sector;
                         }
                         return sectorId;

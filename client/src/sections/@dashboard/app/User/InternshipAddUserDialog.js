@@ -59,7 +59,7 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
     const fetchSectors = async () => {
         setLoadingSectors(true);
         try {
-            const response = await axios.get('http://localhost:8070/api/sectors');
+            const response = await axios.get('https://ai-pm-internship-backend.onrender.com/api/sectors');
             setAvailableSectors(response.data.sectors || []);
         } catch (error) {
             console.error('Error fetching sectors:', error);
@@ -79,7 +79,7 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
             };
 
             const response = await axios.post(
-                'http://localhost:8070/api/internships/admin/internships',
+                'https://ai-pm-internship-backend.onrender.com/api/internships/admin/internships',
                 dataToSubmit,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -108,7 +108,7 @@ export default function InternshipAddUserDialog({ open, onClose, fetchInternship
 
         try {
             const response = await axios.post(
-                'http://localhost:8070/api/internships/admin/internships/bulk-upload',
+                'https://ai-pm-internship-backend.onrender.com/api/internships/admin/internships/bulk-upload',
                 formData,
                 {
                     headers: {

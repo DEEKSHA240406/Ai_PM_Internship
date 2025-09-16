@@ -119,7 +119,7 @@ export default function InternshipListToolbar({
     try {
       const promises = selectedIds.map(internshipId => 
         axios.post(
-          `http://localhost:8070/api/internships/admin/internships/${internshipId}/notify`,
+          `https://ai-pm-internship-backend.onrender.com/api/internships/admin/internships/${internshipId}/notify`,
           { minMatchScore: notificationData.minMatchScore },
           { headers: { Authorization: `Bearer ${token}` } }
         )

@@ -123,7 +123,7 @@ export default function User() {
   // Fetch users from the server
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:8070/api/auth/admin/users',{
+      const response = await axios.get('https://ai-pm-internship-backend.onrender.com/api/auth/admin/users',{
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
